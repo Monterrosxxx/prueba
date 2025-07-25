@@ -11,11 +11,8 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '../components/Tabs';
 import UserInfoCard from '../components/Profile/UserInfoCard';
 import { useUserProfile } from '../components/Profile/Hooks/useUserProfile';
 
-// Imágenes para estadísticas (mantenemos las existentes)
-import regalo from '../assets/Regalo.png';
-import relog from '../assets/relog.png';
+// Imágenes para los tabs (mantenemos las existentes)
 import calendario from '../assets/calendario.png';
-import cancelar from "../assets/cancelar.png";
 
 /**
  * Página de perfil del usuario
@@ -88,7 +85,7 @@ const Profile = () => {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {/* Información personal del usuario */}
+                    {/* Información personal del usuario - Ahora incluye todo en una sola card */}
                     <div className="md:col-span-1">
                         <UserInfoCard
                             profileData={profileData}
@@ -97,44 +94,8 @@ const Profile = () => {
                             getUserInitials={getUserInitials}
                             isValidImageUrl={isValidImageUrl}
                             formatMemberSince={formatMemberSince}
+                            handleLogout={handleLogout} // Pasamos la función handleLogout como prop
                         />
-
-                        {/* Resumen de estadísticas (datos quemados como estaban) */}
-                        {profileData && (
-                            <div className="mt-8">
-                                <h3 className="font-semibold text-gray-800 mb-3 text-lg md:text-xl">Resumen</h3>
-                                <div className="flex flex-col md:flex-row gap-3">
-                                    <div className="text-center rounded-xl p-4 flex-1" style={{ backgroundColor: '#E8ACD2' }}>
-                                        <img src={regalo} alt="regalo" className="mx-auto w-6 mb-1" />
-                                        <p className="text-xs text-white">Pedidos totales</p>
-                                        <p className="text-white text-xl font-bold">12</p>
-                                    </div>
-                                    <div className="text-center rounded-xl p-4 flex-1" style={{ backgroundColor: '#E8ACD2' }}>
-                                        <img src={relog} alt="relog" className="mx-auto w-6 mb-1" />
-                                        <p className="text-xs text-white">Pedidos pendientes</p>
-                                        <p className="text-white text-xl font-bold">3</p>
-                                    </div>
-                                    <div className="text-center rounded-xl p-4 flex-1" style={{ backgroundColor: '#E8ACD2' }}>
-                                        <img src={cancelar} alt="cancelar" className="mx-auto w-6 mb-1" />
-                                        <p className="text-xs text-white">Pedidos cancelados</p>
-                                        <p className="text-white text-xl font-bold">5</p>
-                                    </div>
-                                </div>
-                            </div>
-                        )}
-
-                        {/* Botón de cerrar sesión */}
-                        {profileData && (
-                            <div className="text-center mt-6">
-                                <Button 
-                                    style={{ backgroundColor: '#E8ACD2' }} 
-                                    className="hover:bg-pink-400 text-white w-full py-2 text-sm md:text-base" 
-                                    onClick={handleLogout}
-                                >
-                                    Cerrar sesión
-                                </Button>
-                            </div>
-                        )}
                     </div>
 
                     {/* Tabs de contenido (mantenemos la estructura original) */}

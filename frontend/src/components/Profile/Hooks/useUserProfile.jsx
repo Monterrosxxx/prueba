@@ -58,12 +58,18 @@ export const useUserProfile = () => {
 
     /**
      * Función para formatear la fecha de registro del usuario
+     * Corregida para extraer correctamente el año del campo createdAt
      */
     const formatMemberSince = (createdAt) => {
         if (!createdAt) return 'Fecha no disponible';
         
         try {
+            // Crear objeto Date desde el campo createdAt y extraer solo el año
             const date = new Date(createdAt);
+            // Verificar que la fecha sea válida antes de extraer el año
+            if (isNaN(date.getTime())) {
+                return 'Fecha no disponible';
+            }
             return date.getFullYear();
         } catch (error) {
             console.error('Error al formatear fecha:', error);

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Card } from '../Card';
+import { Button } from '../ButtonRosa';
 import SeparatorPerfil from '../SeparadorPerfil';
 import LoadingSpinner from '../LoadingSpinner';
 
@@ -8,9 +9,14 @@ import correo from '../../assets/CorreoMarqueza.png';
 import telefono from '../../assets/TelefonoMarqueza.png';
 import ubicacion from '../../assets/ubicacion.png';
 
+// Imágenes para estadísticas
+import regalo from '../../assets/Regalo.png';
+import relog from '../../assets/relog.png';
+import cancelar from "../../assets/cancelar.png";
+
 /**
- * Componente para mostrar la información personal del usuario
- * Incluye foto de perfil, datos básicos y información de contacto
+ * Componente unificado para mostrar la información personal del usuario
+ * Ahora incluye la información de contacto, estadísticas y botón de cerrar sesión en una sola card
  */
 const UserInfoCard = ({ 
     profileData, 
@@ -18,7 +24,8 @@ const UserInfoCard = ({
     error, 
     getUserInitials, 
     isValidImageUrl, 
-    formatMemberSince 
+    formatMemberSince,
+    handleLogout // Agregamos la función handleLogout como prop
 }) => {
     // Mostrar spinner de carga
     if (loading) {
@@ -99,7 +106,7 @@ const UserInfoCard = ({
                     {profileData.name || 'Nombre no disponible'}
                 </p>
                 
-                {/* Fecha de registro */}
+                {/* Fecha de registro - Ahora utiliza correctamente el campo createdAt */}
                 <p className="text-xs text-gray-500 mb-3" style={{ fontFamily: 'Poppins, sans-serif' }}>
                     Miembro desde {formatMemberSince(profileData.createdAt)}
                 </p>
@@ -131,6 +138,39 @@ const UserInfoCard = ({
                             {profileData.address || 'Dirección no disponible'}
                         </p>
                     </div>
+                </div>
+
+                {/* Sección de Resumen - Ahora incluida dentro de la card */}
+                <div className="w-full mt-8">
+                    <h3 className="font-semibold text-gray-800 mb-3 text-lg md:text-xl">Resumen</h3>
+                    <div className="flex flex-col md:flex-row gap-3">
+                        <div className="text-center rounded-xl p-4 flex-1" style={{ backgroundColor: '#E8ACD2' }}>
+                            <img src={regalo} alt="regalo" className="mx-auto w-6 mb-1" />
+                            <p className="text-xs text-white">Pedidos totales</p>
+                            <p className="text-white text-xl font-bold">12</p>
+                        </div>
+                        <div className="text-center rounded-xl p-4 flex-1" style={{ backgroundColor: '#E8ACD2' }}>
+                            <img src={relog} alt="relog" className="mx-auto w-6 mb-1" />
+                            <p className="text-xs text-white">Pedidos pendientes</p>
+                            <p className="text-white text-xl font-bold">3</p>
+                        </div>
+                        <div className="text-center rounded-xl p-4 flex-1" style={{ backgroundColor: '#E8ACD2' }}>
+                            <img src={cancelar} alt="cancelar" className="mx-auto w-6 mb-1" />
+                            <p className="text-xs text-white">Pedidos cancelados</p>
+                            <p className="text-white text-xl font-bold">5</p>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Botón de cerrar sesión - Ahora incluido dentro de la card */}
+                <div className="w-full text-center mt-6">
+                    <Button 
+                        style={{ backgroundColor: '#E8ACD2' }} 
+                        className="hover:bg-pink-400 text-white w-full py-2 text-sm md:text-base" 
+                        onClick={handleLogout}
+                    >
+                        Cerrar sesión
+                    </Button>
                 </div>
             </div>
         </Card>

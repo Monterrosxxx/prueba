@@ -1,5 +1,7 @@
 // Importé el modelo de clientes para trabajar con la base de datos
 import clientsModel from "../models/Clients.js";
+import path from "path";
+import fs from "fs";
 
 // Objeto que contendrá todas las funciones del controller
 const clientsController = {};
@@ -8,6 +10,70 @@ const clientsController = {};
 const validatePeriod = (period) => {
     const validPeriods = ['current', 'previous'];
     return validPeriods.includes(period);
+};
+
+// Actualizar perfil del usuario autenticado
+clientsController.updateProfile = async (req, res) => {
+    try {
+        // Asegúrate de tener el id del usuario autenticado (middleware verifyToken debe ponerlo en req.user)
+        const userId = req.user?.id;
+        if (!userId) {
+            return res.status(401).json({ success: false, message: "No autenticado" });
+        }
+
+        // Obtener datos del formulario
+        const { fullName, phone, address } = req.body;
+
+        // Validaciones básicas (puedes agregar más si lo deseas)
+        if (!fullName || !phone || !address) {
+            return res.status(400).json({ success: false, message: "Todos los campos son requeridos" });
+        }
+
+        // Preparar objeto de actualización
+        const updateFields = {
+            name: fullName.trim(),
+            phone: phone.trim(),
+            address: address.trim()
+        };
+
+        // Si hay imagen nueva, procesarla
+        if (req.file) {
+            // Opcional: eliminar imagen anterior si la tienes guardada
+            // Guardar la ruta relativa de la imagen
+            updateFields.profilePicture = `/profile_pictures/${req.file.filename}`;
+        }
+
+        // Actualizar en la base de datos
+        const updatedUser = await clientsModel.findByIdAndUpdate(
+            userId,
+            { $set: updateFields },
+            { new: true }
+        ).select("-password"); // No enviar el password
+
+        if (!updatedUser) {
+            return res.status(404).json({ success: false, message: "Usuario no encontrado" });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "Perfil actualizado exitosamente",
+            data: {
+                id: updatedUser._id,
+                name: updatedUser.name,
+                phone: updatedUser.phone,
+                address: updatedUser.address,
+                email: updatedUser.email,
+                profilePicture: updatedUser.profilePicture
+            }
+        });
+    } catch (error) {
+        console.error("Error al actualizar perfil:", error);
+        res.status(500).json({
+            success: false,
+            message: "Error interno al actualizar el perfil",
+            error: error.message
+        });
+    }
 };
 
 // Función helper para calcular fechas de trimestre

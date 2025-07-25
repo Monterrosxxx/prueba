@@ -1,4 +1,5 @@
-import React from "react";
+// Ruta: frontend/src/pages/Profile.jsx
+import React, { useState } from "react"; // EDITADO: Agregado useState
 import { useNavigate } from 'react-router-dom';
 import Header from "../components/Header/Header";
 import { useAuth } from '../context/AuthContext';
@@ -11,6 +12,9 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '../components/Tabs';
 import UserInfoCard from '../components/Profile/UserInfoCard';
 import { useUserProfile } from '../components/Profile/Hooks/useUserProfile';
 
+// NUEVO: Importar el modal de edición de perfil
+import EditProfileModal from '../components/Profile/EditProfileModal';
+
 // Imágenes para los tabs (mantenemos las existentes)
 import calendario from '../assets/calendario.png';
 
@@ -22,6 +26,9 @@ const Profile = () => {
     const navigate = useNavigate();
     const { logout } = useAuth();
     
+    // NUEVO: Estado para controlar el modal de edición
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    
     // Hook personalizado para manejar datos del perfil
     const {
         profileData,
@@ -29,7 +36,8 @@ const Profile = () => {
         error,
         getUserInitials,
         isValidImageUrl,
-        formatMemberSince
+        formatMemberSince,
+        fetchUserProfile // NUEVO: Necesario para refrescar datos después de editar
     } = useUserProfile();
 
     /**
@@ -57,11 +65,32 @@ const Profile = () => {
     };
 
     /**
-     * Función para manejar la edición del perfil (placeholder)
+     * NUEVO: Función para manejar la edición del perfil
+     * Abre el modal de edición de perfil
      */
     const handleEditProfile = () => {
-        // TODO: Implementar funcionalidad de edición de perfil
-        console.log('Funcionalidad de edición de perfil por implementar');
+        setIsEditModalOpen(true);
+    };
+
+    /**
+     * NUEVO: Función para cerrar el modal de edición
+     */
+    const handleCloseEditModal = () => {
+        setIsEditModalOpen(false);
+    };
+
+    /**
+     * NUEVO: Función llamada cuando la edición es exitosa
+     * Refresca los datos del perfil y muestra mensaje de éxito
+     */
+    const handleEditSuccess = async (updatedData) => {
+        console.log('Perfil actualizado exitosamente:', updatedData);
+        
+        // Refrescar datos del perfil
+        await fetchUserProfile();
+        
+        // Cerrar modal
+        setIsEditModalOpen(false);
     };
 
     return (
@@ -78,7 +107,7 @@ const Profile = () => {
                     <Button 
                         className="hover:bg-pink-400 text-white flex items-center text-sm px-4 py-2" 
                         style={{ backgroundColor: '#E8ACD2' }}
-                        onClick={handleEditProfile}
+                        onClick={handleEditProfile} // EDITADO: Cambiar función del onClick
                     >
                         <FaEdit className="mr-2" /> Editar perfil
                     </Button>
@@ -94,7 +123,7 @@ const Profile = () => {
                             getUserInitials={getUserInitials}
                             isValidImageUrl={isValidImageUrl}
                             formatMemberSince={formatMemberSince}
-                            handleLogout={handleLogout} // Pasamos la función handleLogout como prop
+                            handleLogout={handleLogout}
                         />
                     </div>
 
@@ -221,6 +250,14 @@ const Profile = () => {
                     </div>
                 </div>
             </div>
+
+            {/* NUEVO: Modal de edición de perfil */}
+            <EditProfileModal
+                isOpen={isEditModalOpen}
+                onClose={handleCloseEditModal}
+                userData={profileData}
+                onSuccess={handleEditSuccess}
+            />
         </>
     );
 };

@@ -1,3 +1,4 @@
+// Ruta: frontend/src/components/Profile/Hooks/useUserProfile.jsx
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../../context/AuthContext';
 
@@ -136,7 +137,7 @@ export const useUserProfile = () => {
         error,
         
         // Funciones utilitarias
-        fetchUserProfile,
+        fetchUserProfile, // EXPORTADA: Para poder refrescar datos después de editar
         formatMemberSince,
         getUserInitials,
         isValidImageUrl,

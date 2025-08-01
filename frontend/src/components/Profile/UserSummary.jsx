@@ -3,7 +3,6 @@
  * Muestra estadísticas de pedidos del usuario
  * Por ahora mantiene los datos de ejemplo, pero preparado para datos reales
  * 
- * Props:
  * - stats: Objeto con estadísticas del usuario (opcional, usa valores por defecto)
  */
 import React from 'react';

@@ -2,7 +2,6 @@
  * Componente UserInfo - Información personal del usuario
  * Muestra los datos personales del usuario logueado
  * 
- * Props:
  * - user: Objeto con los datos del usuario desde AuthContext
  */
 import React from 'react';
@@ -16,9 +15,9 @@ import ubicacion from '../../assets/ubicacion.png';
 
 const UserInfo = ({ user }) => {
     // DEBUG: Mostrar información del usuario recibida
-    console.log('🧑 UserInfo - Usuario recibido:', user);
-    console.log('🧑 UserInfo - Tipo de usuario:', typeof user);
-    console.log('🧑 UserInfo - Propiedades:', user ? Object.keys(user) : 'Sin propiedades');
+    console.log('UserInfo - Usuario recibido:', user);
+    console.log('UserInfo - Tipo de usuario:', typeof user);
+    console.log('UserInfo - Propiedades:', user ? Object.keys(user) : 'Sin propiedades');
 
     /**
      * Función para formatear la fecha de registro

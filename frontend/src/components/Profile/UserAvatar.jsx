@@ -2,7 +2,6 @@
  * Componente UserAvatar - Avatar del usuario con imagen o iniciales
  * Muestra la foto de perfil del usuario o sus iniciales si no tiene foto
  * 
- * Props:
  * - profilePicture: URL de la imagen de perfil (opcional)
  * - fullName: Nombre completo del usuario
  * - size: Tamaño del avatar ('sm', 'md', 'lg', 'xl')

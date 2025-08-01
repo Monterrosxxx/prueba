@@ -20,7 +20,7 @@ const Perfil = () => {
   const { logout, userInfo, user, isAuthenticated, loading } = useAuth();
   
   // DEBUG: Información del contexto de autenticación
-  console.log('🔍 Profile - Estado del contexto:', {
+  console.log('Profile - Estado del contexto:', {
     isAuthenticated,
     loading,
     hasUser: !!user,
@@ -53,7 +53,7 @@ const Perfil = () => {
   // Priorizar userInfo sobre user ya que tiene más detalles
   const userData = userInfo || user || {};
   
-  console.log('📊 Profile - Datos del usuario combinados:', userData);
+  console.log('Profile - Datos del usuario combinados:', userData);
 
   // Si está cargando, mostrar indicador
   if (loading) {

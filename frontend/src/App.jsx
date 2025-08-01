@@ -39,6 +39,7 @@ import AboutUs from './pages/AboutUs';
 import PrivacyPolicies from './pages/PrivacyPolicies.JSX';
 import TermsandConditions from './pages/TermsandConditions';
 import MediaDetailPage from './pages/MediaDetailPage';
+import CustomProductsManager from './pages/CustomProductsManager';
 
 // Importar el gestor de chat para administradores
 import ChatManager from './pages/ChatManager';
@@ -116,6 +117,7 @@ function App() {
           <Route path="/categoryProducts" element={<CategoryProducts />} />
           <Route path="/categoria/:categoryId" element={<CategoryProductsPage />} />
           <Route path="/ProductDetail" element={<ProductDetail />} />
+          <Route path="/ProductDetail/:id" element={<ProductDetail />} />
           <Route path="/mediaPage" element={<MediaPage />} />
           <Route path="/MediaDetailPage/:id" element={<MediaDetailPage />} />
           
@@ -180,6 +182,14 @@ function App() {
             element={
               <ProtectedRoutes requiredUserType="admin">
                 <ChatManager />
+              </ProtectedRoutes>
+            }
+          />
+
+          <Route path="/customProductsMaterials"
+            element={
+              <ProtectedRoutes requiredUserType="admin">
+                <CustomProductsManager />
               </ProtectedRoutes>
             }
           />
